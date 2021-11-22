@@ -1,5 +1,5 @@
 
-package com.iblinfotech.myapplication.activity
+package com.iblinfotech.myapplication.activity.activity
 
 import com.iblinfotech.myapplication.R
 import androidx.appcompat.app.AppCompatActivity
