@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "559667922261",
+    "firebase_url": "https://androidpractical-e91e0-default-rtdb.firebaseio.com",
+    "project_id": "androidpractical-e91e0",
+    "storage_bucket": "androidpractical-e91e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559667922261:android:71a97f39e43d0c48389bdc",
+        "android_client_info": {
+          "package_name": "com.dev.practical"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "559667922261-reaf71a9nso7qm58aohc26ql8tsiu2p1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtImndZ7CwEnaXbbUbN_GRWhu8_GqwCWE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "559667922261-reaf71a9nso7qm58aohc26ql8tsiu2p1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:559667922261:android:cbc0c1e54ff15aa8389bdc",
+        "android_client_info": {
+          "package_name": "com.iblinfotech.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "559667922261-reaf71a9nso7qm58aohc26ql8tsiu2p1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtImndZ7CwEnaXbbUbN_GRWhu8_GqwCWE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "559667922261-reaf71a9nso7qm58aohc26ql8tsiu2p1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
