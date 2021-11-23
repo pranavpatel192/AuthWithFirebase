@@ -1,3 +1,19 @@
 <resources>
+    <string name="facebook_app_id">1071262523729304</string>
+    <string name="fb_login_protocol_scheme">fb1071262523729304</string>
+
     <string name="app_name">My Application</string>
+    <string name="label_email_address">Email Address</string>
+    <string name="label_password">Password</string>
+    <string name="label_sign_in">Sign In</string>
+    <string name="ok">OK</string>
+    <string name="error_empty_full_name">Please enter full name</string>
+    <string name="error_empty_email">Please enter email id</string>
+    <string name="error_valid_email">Please enter valid email id</string>
+    <string name="error_empty_password">Please enter password</string>
+    <string name="error_valid_password">Password must be max 6 characters including upper/lowercase, special character and numbers.</string>
+    <string name="label_full_name">Full Name</string>
+    <string name="label_sign_up">SIgn Up</string>
+    <string name="label_confirm_password">Confirm Password</string>
+    <string name="email_exists">Email already exists</string>
 </resources>
