@@ -161,8 +161,8 @@ class LoginActivity : BaseActivity() {
                                 sessionManager.password = ""
                                 FirebaseReferneces.updateUserDetails(
                                     sessionManager.userId.toString(),
-                                    sessionManager.name,
-                                    sessionManager.email,
+                                    sessionManager.name.toString(),
+                                    sessionManager.email.toString(),
                                 Const.facebookLogin)
                                 dialogLoader.hideProgressDialog()
                                 val main = Intent(context, MainActivity::class.java)
@@ -179,8 +179,8 @@ class LoginActivity : BaseActivity() {
                         sessionManager.password = ""
                         FirebaseReferneces.updateUserDetails(
                             sessionManager.userId.toString(),
-                            sessionManager.name,
-                            sessionManager.email,
+                            sessionManager.name.toString(),
+                            sessionManager.email.toString(),
                         Const.facebookLogin)
                         dialogLoader.hideProgressDialog()
                         val main = Intent(context, MainActivity::class.java)

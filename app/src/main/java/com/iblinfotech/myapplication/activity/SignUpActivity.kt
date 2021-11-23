@@ -145,15 +145,15 @@ class SignUpActivity : BaseActivity() {
                             if (id.contains(java.lang.String.valueOf(sessionManager.userId))) {
                                 FirebaseReferneces.updateUserDetails(
                                     sessionManager.userId.toString(),
-                                    sessionManager.name,
-                                    sessionManager.email,
+                                    sessionManager.name.toString(),
+                                    sessionManager.email.toString(),
                                 Const.normalLogin)
                             }
                         } else {
                             FirebaseReferneces.createUser(
                                 sessionManager.userId.toString(),
-                                sessionManager.name,
-                                sessionManager.email,
+                                sessionManager.name.toString(),
+                                sessionManager.email.toString(),
                             Const.normalLogin)
                         }
                         dialogLoader.hideProgressDialog()

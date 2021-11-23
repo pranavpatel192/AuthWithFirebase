@@ -1,39 +1,38 @@
-package com.iblinfotech.myapplication.firebase;
+package com.iblinfotech.myapplication.firebase
 
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.iblinfotech.myapplication.utils.Const;
-import java.util.HashMap;
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
+import com.iblinfotech.myapplication.firebase.FirebaseReferneces
+import com.iblinfotech.myapplication.utils.Const
+import java.util.HashMap
 
-public class FirebaseReferneces {
-
-
-    public static final FirebaseDatabase FIREBASE_DATABASE = FirebaseDatabase.getInstance();
-    public static final DatabaseReference DATABASE_REFERENCE = FIREBASE_DATABASE.getReference();
-
-    public static DatabaseReference getDatabaseReference(String ref) {
-        return FIREBASE_DATABASE.getReference(ref);
+object FirebaseReferneces {
+    val FIREBASE_DATABASE = FirebaseDatabase.getInstance()
+    val DATABASE_REFERENCE = FIREBASE_DATABASE.reference
+    fun getDatabaseReference(ref: String?): DatabaseReference {
+        return FIREBASE_DATABASE.getReference(ref!!)
     }
 
-    public static void createUser(String id, String firstName, String email, String loginType) {
-        getDatabaseReference(Const.firebaseUsers).child(id).setValue(id);
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put(Const.firebaseUserId, id);
-        hashMap.put(Const.firebaseUserFullName, firstName);
-        hashMap.put(Const.firebaseUserEmail, email);
-        hashMap.put(Const.firebaseUserLoginType, loginType);
-        getDatabaseReference(Const.firebaseUsers).child(id).updateChildren(hashMap);
+    fun createUser(id: String?, firstName: String, email: String, loginType: String) {
+        getDatabaseReference(Const.firebaseUsers).child(
+            id!!
+        ).setValue(id)
+        val hashMap = HashMap<String, Any?>()
+        hashMap[Const.firebaseUserId] = id
+        hashMap[Const.firebaseUserFullName] = firstName
+        hashMap[Const.firebaseUserEmail] = email
+        hashMap[Const.firebaseUserLoginType] = loginType
+        getDatabaseReference(Const.firebaseUsers).child(
+            id
+        ).updateChildren(hashMap)
     }
 
-    public static void updateUserDetails(String id, String firstName,String email, String loginType) {
-        HashMap<String, Object> hashMap = new HashMap<>();
-        hashMap.put(Const.firebaseUserId, id);
-        hashMap.put(Const.firebaseUserFullName, firstName);
-        hashMap.put(Const.firebaseUserEmail, email);
-        hashMap.put(Const.firebaseUserLoginType, loginType);
-        getDatabaseReference(Const.firebaseUsers).child(id).updateChildren(hashMap);
+    fun updateUserDetails(id: String, firstName: String, email: String, loginType: String) {
+        val hashMap = HashMap<String, Any>()
+        hashMap[Const.firebaseUserId] = id
+        hashMap[Const.firebaseUserFullName] = firstName
+        hashMap[Const.firebaseUserEmail] = email
+        hashMap[Const.firebaseUserLoginType] = loginType
+        getDatabaseReference(Const.firebaseUsers).child(id).updateChildren(hashMap)
     }
-
-
-
 }
