@@ -132,6 +132,8 @@ class Utils {
             return jsonObject != null && jsonObject.has(key) && !jsonObject.isNull(key)
         }
 
+
+
         fun makeTextToast(context: Context, text: CharSequence): Toast {
             return Toast.makeText(context, text, Toast.LENGTH_SHORT).also {
                 val toastLayout = it.view as LinearLayout

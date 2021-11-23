@@ -16,4 +16,7 @@
     <string name="label_sign_up">SIgn Up</string>
     <string name="label_confirm_password">Confirm Password</string>
     <string name="email_exists">Email already exists</string>
+    <string name="error_empty_confirm_password">Please enter confirm password</string>
+    <string name="error_password_not_matched">Password don\'t matched</string>
+    <string name="label_logout">Logout</string>
 </resources>

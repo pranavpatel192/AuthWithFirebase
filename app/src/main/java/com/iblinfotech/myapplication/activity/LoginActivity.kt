@@ -6,10 +6,18 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.dev.practical.extra.Utils
 import com.dev.practical.extra.ValidationInputs
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,6 +39,12 @@ class LoginActivity : BaseActivity() {
     // FIREBASE AUTH
     private lateinit var mFirebaseAuth: FirebaseAuth
 
+    // CALL BACK MANAGER
+    lateinit var callBackManager : CallbackManager
+
+    // ARRAY LIST
+    var emailList : ArrayList<String> = ArrayList()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +55,15 @@ class LoginActivity : BaseActivity() {
 
         // FACEBOOK KEY HASH
         facebookHashKey()
+
+        // INIT SIGN IN CLICK
+        initLoginClick()
+
+        // INIT SIGN UP CLICK
+        initSignUpClick()
+
+        // INIT FACEBOOK LOGIN CLICK
+        initFacebookLoginClick()
     }
 
     // INIT SIGN IN CLICK
@@ -49,6 +72,144 @@ class LoginActivity : BaseActivity() {
             checkValidation()
         }
     }
+
+    // INIT SIGN UP CLICK
+    private fun initSignUpClick(){
+        binding.txSignUp.setOnClickListener {
+            val intent = Intent(context, SignUpActivity :: class.java)
+            startActivity(intent)
+        }
+    }
+
+    // INIT FACEBOOK LOGIN CLICK
+    private fun initFacebookLoginClick(){
+        // Initialize Facebook Login button
+        callBackManager = CallbackManager.Factory.create()
+
+        LoginManager.getInstance().logOut()
+
+        binding.fbLogin.setReadPermissions("email", "public_profile")
+        binding.fbLogin.registerCallback(callBackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                Log.d("TAG", "facebook:onSuccess:$loginResult")
+                handleFacebookAccessToken(loginResult.accessToken)
+            }
+
+            override fun onCancel() {
+                Log.d("TAG", "facebook:onCancel")
+            }
+
+            override fun onError(error: FacebookException) {
+                Log.d("TAG", "facebook:onError", error)
+            }
+        })
+    }
+
+
+    private fun handleFacebookAccessToken(token: AccessToken) {
+        Log.d("TAG", "handleFacebookAccessToken:$token")
+
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        mFirebaseAuth.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d("TAG", "signInWithCredential:success")
+                    val user = mFirebaseAuth.currentUser
+                    val name = user!!.displayName.toString()
+                    val email = user!!.email.toString()
+                    dialogLoader.showProgressDialog()
+                    isUsersExists(name, email)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w("TAG", "signInWithCredential:failure", task.exception)
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+
+    // CHECK FIREBASE DATA AVAILABLE
+    private fun isUsersExists(name : String, email : String){
+        FirebaseReferneces.getDatabaseReference(Const.firebaseUsers).addListenerForSingleValueEvent(object :
+            ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                try {
+                    if (snapshot.value is ArrayList<*>) {
+                        val objectMap: ArrayList<Map<String, Any>?> = snapshot.value as ArrayList<Map<String, Any>?>
+                        var userId : String = ""
+                        for (i in 0 until objectMap.size) {
+                            if (objectMap[i] != null) {
+                                userId = objectMap[i]!!.getValue(Const.firebaseUserId) as String
+                                if (objectMap[i]!!.containsKey(Const.firebaseUserEmail)){
+                                    val email = objectMap[i]!!.getValue(Const.firebaseUserEmail) as String
+                                    emailList.add(email)
+                                }
+                            }
+                        }
+                        if (emailList.size > 0){
+                            if (emailList.contains(email)){
+                                val main = Intent(context, MainActivity::class.java)
+                                main.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                context.startActivity(main)
+                            } else {
+                                sessionManager.userId = userId.toInt() + 1
+                                sessionManager.name = name
+                                sessionManager.email = email
+                                sessionManager.password = ""
+                                FirebaseReferneces.updateUserDetails(
+                                    sessionManager.userId.toString(),
+                                    sessionManager.name,
+                                    sessionManager.email,
+                                Const.facebookLogin)
+                                dialogLoader.hideProgressDialog()
+                                val main = Intent(context, MainActivity::class.java)
+                                main.flags =
+                                    Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                context.startActivity(main)
+                            }
+
+                        }
+                    } else {
+                        sessionManager.userId = 0
+                        sessionManager.name = name
+                        sessionManager.email = email
+                        sessionManager.password = ""
+                        FirebaseReferneces.updateUserDetails(
+                            sessionManager.userId.toString(),
+                            sessionManager.name,
+                            sessionManager.email,
+                        Const.facebookLogin)
+                        dialogLoader.hideProgressDialog()
+                        val main = Intent(context, MainActivity::class.java)
+                        main.flags =
+                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        context.startActivity(main)
+                    }
+                } catch (e : Exception){
+                    e.printStackTrace()
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                dialogLoader.hideProgressDialog()
+                Log.e(
+                    "Database Error->",
+                    error.details
+                )
+            }
+
+        })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        callBackManager.onActivityResult(requestCode, resultCode, data)
+    }
+
 
     // CHECK VALIDATION
     private fun checkValidation(){

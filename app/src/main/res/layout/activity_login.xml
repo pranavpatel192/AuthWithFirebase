@@ -88,6 +88,22 @@
                 </androidx.cardview.widget.CardView>
 
 
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tx_sign_up"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_sign_up"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
+
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/fb_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_24sdp"/>
+
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>

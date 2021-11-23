@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         app:cardCornerRadius="@dimen/_4sdp"
         app:cardElevation="0dp"
-        app:cardBackgroundColor="@color/colorWhite"
+        app:cardBackgroundColor="@color/white"
         app:contentPadding="@dimen/_4sdp"
         android:layout_gravity="center">
 

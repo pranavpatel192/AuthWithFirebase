@@ -15,20 +15,22 @@ public class FirebaseReferneces {
         return FIREBASE_DATABASE.getReference(ref);
     }
 
-    public static void createUser(String id, String firstName, String email) {
+    public static void createUser(String id, String firstName, String email, String loginType) {
         getDatabaseReference(Const.firebaseUsers).child(id).setValue(id);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put(Const.firebaseUserId, id);
         hashMap.put(Const.firebaseUserFullName, firstName);
         hashMap.put(Const.firebaseUserEmail, email);
+        hashMap.put(Const.firebaseUserLoginType, loginType);
         getDatabaseReference(Const.firebaseUsers).child(id).updateChildren(hashMap);
     }
 
-    public static void updateUserDetails(String id, String firstName,String email) {
+    public static void updateUserDetails(String id, String firstName,String email, String loginType) {
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put(Const.firebaseUserId, id);
         hashMap.put(Const.firebaseUserFullName, firstName);
         hashMap.put(Const.firebaseUserEmail, email);
+        hashMap.put(Const.firebaseUserLoginType, loginType);
         getDatabaseReference(Const.firebaseUsers).child(id).updateChildren(hashMap);
     }
 

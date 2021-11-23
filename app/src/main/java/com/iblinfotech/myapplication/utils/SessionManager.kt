@@ -31,6 +31,14 @@ class SessionManager(
         }
 
 
+    var loginType : String?
+        get() = pref.getString(LOGIN_TYPE, "")
+        set(type) {
+            editor.putString(LOGIN_TYPE, type)
+            editor.commit()
+        }
+
+
 
     var email : String?
         get() = pref.getString(EMAIL, "")
@@ -90,6 +98,7 @@ class SessionManager(
         private const val USER_ID = "user_id"
         private const val PASSWORD = "password"
         private const val PROFILE = "profile"
+        private const val LOGIN_TYPE = "login_type"
 
         @Synchronized
         fun getInstance(context: Context): SessionManager? {

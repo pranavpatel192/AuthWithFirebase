@@ -12,17 +12,23 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        xmlns:tools="http://schemas.android.com/tools"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".activity.SignUpActivity"/>
-        <activity android:name=".activity.SplashActivity">
+        <activity android:name=".activity.SignUpActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
+        <activity android:name=".activity.SplashActivity"
+            android:theme="@style/Theme.MyApplication.New"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.activity.MainActivity" />
+        <activity android:name=".activity.LoginActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
+        <activity android:name=".activity.activity.MainActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
@@ -31,7 +37,8 @@
             android:configChanges="keyboard|keyboardHidden
 						|screenLayout|screenSize
 						|orientation"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            tools:replace="android:configChanges"/>
 
     </application>
 

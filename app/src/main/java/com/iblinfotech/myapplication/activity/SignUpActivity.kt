@@ -3,6 +3,7 @@ package com.iblinfotech.myapplication.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.databinding.DataBindingUtil
 import com.dev.practical.extra.Utils
 import com.dev.practical.extra.ValidationInputs
 import com.google.android.gms.tasks.OnCompleteListener
@@ -14,6 +15,7 @@ import com.iblinfotech.myapplication.R
 import com.iblinfotech.myapplication.databinding.ActivitySignUpBinding
 import com.iblinfotech.myapplication.firebase.FirebaseReferneces
 import com.iblinfotech.myapplication.utils.Const
+import com.iblinfotech.myapplication.utils.Encode
 
 class SignUpActivity : BaseActivity() {
 
@@ -28,7 +30,7 @@ class SignUpActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_sign_up)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up)
 
         // INIT FIREBASE AUTH
         mFirebaseAuth = FirebaseAuth.getInstance()
@@ -55,6 +57,10 @@ class SignUpActivity : BaseActivity() {
             Utils.showAlertCustom(context, context.resources.getString(R.string.error_valid_email))
         } else if (binding.edPassword.text.toString().trim().isEmpty()){
             Utils.showAlertCustom(context, context.resources.getString(R.string.error_empty_password))
+        } else if (binding.edConfPassword.text.toString().trim().isEmpty()){
+            Utils.showAlertCustom(context, context.resources.getString(R.string.error_empty_confirm_password))
+        } else if (binding.edConfPassword.text.toString().trim() != binding.edPassword.text.toString().trim()){
+            Utils.showAlertCustom(context, context.resources.getString(R.string.error_password_not_matched))
         } else {
             isUsersExists()
         }
@@ -140,16 +146,18 @@ class SignUpActivity : BaseActivity() {
                                 FirebaseReferneces.updateUserDetails(
                                     sessionManager.userId.toString(),
                                     sessionManager.name,
-                                    sessionManager.email)
+                                    sessionManager.email,
+                                Const.normalLogin)
                             }
                         } else {
                             FirebaseReferneces.createUser(
                                 sessionManager.userId.toString(),
                                 sessionManager.name,
-                                sessionManager.email)
+                                sessionManager.email,
+                            Const.normalLogin)
                         }
                         dialogLoader.hideProgressDialog()
-                        finish()
+                        Utils.showAlertFinish(this@SignUpActivity, "User registered successfully!")
                     }
 
                     override fun onCancelled(databaseError: DatabaseError) {
